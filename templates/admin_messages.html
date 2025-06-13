@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin-Messages{% endblock %}
+
+{% block content %}
+<h1>Manage Messages</h1>
+<ul>
+    {% for message in messages %}
+    <li>
+        <h2>{{ message.name}}({{ message.email }})</h2>
+        <p>{{ message.message}}</p>
+        <form action="{{ url_for('admin_messages')}}" download>Download Message</form>
+        <input type="hidden" name="message_id" value="{{ message.id }}">
+        <button type="submit">Delete</button>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
