@@ -13,9 +13,14 @@
             <a href="{{ url_for('about') }}">About</a>
             <a href="{{ url_for('portfolio') }}">Portfolio</a>
             <a href="{{ url_for('contact') }}">Contact</a>
+
+            <!--- Conditional links for admin-->
+            {% if session.get('is_admin') %}
              <a href="{{ url_for('upload') }}">Upload</a>
              <a href="{{ url_for('admin_projects') }}">Admin Projects</a>
              <a href="{{ url_for('admin_messages') }}">Admin Messages</a>
+             <a href="{{ url_for('logout') }}">Logout</a>
+             {% endif %}
         </nav>
     </header>
     <main>

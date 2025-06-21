@@ -1,10 +1,10 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 from werkzeug.utils import secure_filename
 import os
-from models import db, Project, Message
+from models import db, Project, Message, Admin
 
 UPLOAD_FOLDER = 'static/uploads'
-ALLOWED_EXTENSIONS = {'zip', 'rar', 'tar'}
+ALLOWED_EXTENSIONS = {'zip', 'rar', 'tar', 'png', 'jpg', 'jpeg', 'gif'}
 
 
 app = Flask(__name__)
@@ -21,7 +21,9 @@ def allowed_file(filename):
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    profile_picture = os.path.join(app.config['UPLOAD_FOLDER'], 'profile.jpg')
+    about_text = "A short description about yourself...."
+    return render_template('home.html', profile_picture=profile_picture, about_text = about_text)
 
 @app.route('/about')
 def about():
@@ -34,7 +36,7 @@ def portfolio():
 
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
-    if request.method == "POST":
+    if request.method == 'POST':
         name = request.form['name']
         email = request.form['email']
         message = request.form['message']
@@ -42,11 +44,18 @@ def contact():
         db.session.add(new_message)
         db.session.commit()
         return "Thanks for the message"
-    return render_template('contact.html')
+    contact_details = {
+        "phone" : "+254729149639",
+        "email" : "collinskiprotich0@gmail.com",
+        "whatsapp" : "+254729149639",
+        "sms" : "Send SMS to +254729149639"
+    }
+    
+    return render_template('contact.html', contact_details = contact_details)
 
 @app.route('/upload', methods = ['GET', 'POST'])
 def upload():
-    if request.method == "POST":
+    if request.method == 'POST':
         file = request.files['file']
         title = request.form['title']
         description = request.form['description']
@@ -62,6 +71,9 @@ def upload():
 
 @app.route('/admin/projects', methods = ['GET', 'POST'])
 def admin_projects():
+    if not session.get('is_admin'):
+        return redirect(url_for('login'))
+    # Admin logic for managing projects
     projects = Project.query.all()
     if request.method == 'POST':
         project_id = request.form['project_id']
@@ -73,6 +85,9 @@ def admin_projects():
 
 @app.route('/admin/messages', methods = ['GET', 'POST'])
 def admin_messages():
+    if not session.get('is_admin'):
+        return redirect(url_for('login'))
+    # Admin logic for managing messages
     messages = Message.query.all()
     if request.method == 'POST':
         message_id = request.form['message_id']
@@ -82,6 +97,23 @@ def admin_messages():
             db.session.commit()
     return render_template('admin_messages.html', messages=messages)
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        admin = Admin.query.filter_by(username=username).first()
+        if admin and admin.check_password(password):
+            session['is_admin'] = True
+            return redirect(url_for('home'))
+        else:
+            return "Invalid credentials", 401
+    return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+    session.pop('is_admin', None)
+    return redirect(url_for('home'))
 
 if __name__ == '__main__':
     app.run(debug=True)
