@@ -4,21 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <title>{% block title %}My Portfolio{% endblock %}</title>
 </head>
 <body>
     <header>
+        <div class="profile-picture-header">
+            <img src="{{ url_for('static', filename='uploads/profile.jpg') }}" alt="Profile Picture">
+        </div>
         <nav>
             <a href="{{ url_for('home') }}">Home</a>
             <a href="{{ url_for('about') }}">About</a>
             <a href="{{ url_for('portfolio') }}">Portfolio</a>
             <a href="{{ url_for('contact') }}">Contact</a>
 
-            <!--- Conditional links for admin-->
+            <!--- Conditional links for admin--->
             {% if session.get('is_admin') %}
              <a href="{{ url_for('upload') }}">Upload</a>
              <a href="{{ url_for('admin_projects') }}">Admin Projects</a>
              <a href="{{ url_for('admin_messages') }}">Admin Messages</a>
+             <a href="{{ url_for('admin_skills') }}">Manage Skills</a>
              <a href="{{ url_for('logout') }}">Logout</a>
              {% endif %}
         </nav>
@@ -28,6 +33,15 @@
     </main>
     <footer>
         <p>© 2025 COLLINS KIPROTICH</p>
+        <p class="follow-message">You can follow me on the following apps:</p>
+        <div class="social-media">
+            <a href="https://facebook.com/yourusername" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://twitter.com/yourusername" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.linkedin.com/in/collins-kiprotich-b82119211/?lipi=urn%3Ali%3Apage%3Ad_flagship3_job_details%3BVSckVMgPTAWpnysG2%2FQItw%3D%3D" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="https://instagram.com/yourusername" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://github.com/COLLINS572615" target="_blank"><i class="fab fa-github"></i></a>
+        </div>
+
     </footer>
 </body>
 </html>

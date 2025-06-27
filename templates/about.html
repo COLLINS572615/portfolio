@@ -4,5 +4,16 @@
 
 {% block content %}
 <h1>About Me</h1>
-<p>I am a passionate software developer who dwells in both front end and backend dvelopment using pthon, HTML5, CSS, FLASK and Django</p>
+<p>I am a passionate software developer who dwells in both front end and backend development website.</p>
+<h2>My Skills</h2>
+<div class="skill-section">
+    {% for skill in skills %}
+    <div class="skill">
+        <i class="{{ skill.icon }}"></i>
+        <span>{{ skill.name }}</span>
+    </div>
+    {% endfor %}
+</div>
+
+
 {% endblock %}
