@@ -10,7 +10,13 @@
 <body>
     <header>
         <div class="profile-picture-header">
-            <img src="{{ url_for('static', filename='uploads/profile.jpg') }}" alt="Profile Picture">
+            <img src="{{ url_for('static', filename='uploads/profile.jpg') }}" alt="Profile Picture" id="profile-dropdown-toggle">
+            <div id="profile-dropdown" class="dropdown-menu">
+                <a href="{{ url_for('home')}}" class="{% if request.path == url_for('home') %}active{% endif %}">Home</a>
+                <a href="{{ url_for('about')}}" class="{% if request.path == url_for('about') %}active{% endif %}">About</a>
+                <a href="{{ url_for('portfolio')}}" class="{% if request.path == url_for('portfolio') %}active{% endif %}">Portfolio</a>
+                <a href="{{ url_for('contact')}}" class="{% if request.path == url_for('contact') %}active{% endif %}">Contact</a>                
+            </div>
         </div>
         <nav>
             <a href="{{ url_for('home') }}">Home</a>
@@ -28,12 +34,48 @@
              {% endif %}
         </nav>
     </header>
+    <script>
+        const profileToggle = document.getElementById('profile-dropdown-toggle')
+        const dropdownMenu = document.getElementById('profile-dropdown')
+
+        profileToggle.addEventListener('click',() => {
+            const isDisplayed = dropdownMenu.style.display === 'block';
+            dropdownMenu.style.display = isDisplayed ? 'none' : 'block';
+        });
+
+        // Close the dropdown when clicking outside
+        document.addEventListener('click', () => {
+            if(!profileToggle.contains(event.target) && !dropdownMenu.contains(event.target)){
+                dropdownMenu.style.display = 'none';
+            }
+        });
+    </script>
+    <script>
+        document.querySelectorAll('.previous-arrow, .next-arrow').forEach((arrow)=>{
+            arrow.addEventListener('click', event=>{
+                event.preventDefault();
+                const targetURL = event.target.href;
+                document.body.style.opacity = 0; // Fade-out effect
+            setTimeout(() => {
+                window.location.href = targetURL;
+            }, 300); // Adjust delay to match fade-out duration
+        });
+    });
+
+    window.addEventListener('load', () => {
+        document.body.style.transition = 'opacity 0.3s';
+        document.body.style.opacity = 1; // Fade-in effect
+    });
+    </script>
     <main>
         {% block content %}{% endblock %}
     </main>
     <footer>
         <p>© 2025 COLLINS KIPROTICH</p>
-        <p class="follow-message">You can follow me on the following apps:</p>
+        <div class="page-navigation">
+            {% block navigation %}{% endblock %}
+        </div>
+        <p class="follow-message"><strong>You can follow me on the following apps:</strong></p>
         <div class="social-media">
             <a href="https://facebook.com/yourusername" target="_blank"><i class="fab fa-facebook"></i></a>
             <a href="https://twitter.com/yourusername" target="_blank"><i class="fab fa-twitter"></i></a>

@@ -14,3 +14,10 @@
     {% endfor %}
 </ul>
 {% endblock %}
+{% block navigation %}
+<div class="navigation-arrows">
+    <a href="{{ url_for('about') }}" class="prev-arrow">←</a>
+    <a href="{{ url_for('contact') }}" class="next-arrow">→</a>
+</div>
+{% endblock %}
+

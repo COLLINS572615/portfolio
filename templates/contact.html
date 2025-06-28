@@ -11,3 +11,8 @@
     <li>SMS: {{ contact_details.sms }}</li>
 </ul>
 {% endblock %}
+{% block navigation %}
+<div class="navigation-arrows">
+    <a href="{{ url_for('portfolio') }}" class="prev-arrow">←</a>
+</div>
+{% endblock %}

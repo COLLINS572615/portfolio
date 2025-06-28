@@ -27,18 +27,7 @@ def home():
 
 @app.route('/about')
 def about():
-    skills =[
-        {"name": "Python", "icon":"fab fa-python"},
-        {"name": "Html", "icon":"fab fa-html5"},
-        {"name": "CSS", "icon":"fab fa-css3-alt"},
-        {"name": "Flask", "icon":"fas fa-flask"},
-        {"name": "Django", "icon":"fas fa-server"},
-        {"name": "React", "icon":"fab fa-react"},
-        {"name": "SQLITE", "icon":"fas fa-database"},
-        {"name": "PostgreSQL", "icon":"fas fa-database"},
-        {"name": "JSON", "icon":"fas fa-database"},
-        {"name": "CSV", "icon":"fas fa-database"}
-    ]
+    skills = Skill.query.all()  # Fetch all skills from the database
     return render_template('about.html', skills=skills)
 
 @app.route('/portfolio')
@@ -172,8 +161,8 @@ def logout():
 @app.context_processor
 def inject_social_links():
     social_links = {
-        "Facebook": "https://facebook.com",
-        "Twitter": "https://twitter.com",
+        "Facebook": "https://www.facebook.com/me/",
+        "Twitter": "https://x.com/Its_thechief?t=Gk_h2r0Ddh-q-dFdqX1nAQ&s=03",
         "LinkedIn": "www.linkedin.com/in/collins-kiprotich-b82119211",
         "Instagram": "https://instagram.com",
         "GitHub": "https://github.com/COLLINS572615"

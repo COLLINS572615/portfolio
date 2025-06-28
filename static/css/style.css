@@ -140,6 +140,7 @@ button:hover {
     right: 20px;
     width: 80px;
     height: 80px;
+    cursor: pointer;
 }
 
 .profile-picture-header img {
@@ -149,7 +150,32 @@ button:hover {
     object-fit: cover;
     border: 2px solid #ccc;
 }
-s
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    overflow: hidden;
+    z-index: 1000;
+    width: 150%;
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: #333;
+    font-size: 1em;
+}
+
+.dropdown-menu a:hover {
+    background-color: #f0f0f0;
+}
 .footer .social-media {
     margin-top: 10px;
     display: flex;
@@ -205,5 +231,32 @@ s
 .skill:hover {
     transform: scale(1.05);
 }
+
+.page-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.navigation-arrows {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.prev-arrow,
+.next-arrow {
+    font-size: 2em;
+    color: #007BFF;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.prev-arrow:hover,
+.next-arrow:hover {
+    color: #0056b3;
+}
+
 
 
