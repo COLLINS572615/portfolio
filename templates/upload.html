@@ -5,11 +5,15 @@
 {% block content %}
 <h1>Upload a New Project</h1>
 <form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+    
     <label for="title">Project Title:</label>
     <input type="text" id="title" name="title" required>
 
-    <label for="description">Description:</label>
+    <label for="description">Project Description:</label>
     <textarea id="description" name="description" required></textarea>
+
+    <label for="file">Project Screenshot:</label>
+    <input type="file" name="file" required>
 
     <label for="file">Project File:</label>
     <input type="file" id="file" name="file" required>

@@ -8,6 +8,7 @@ class Project(db.Model):
     title = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text, nullable = False)
     link = db.Column(db.String(200), nullable = False)
+    screenshots = db.relationship('Screenshot', backref='project', lazy=True)
 
 class Message(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -30,3 +31,11 @@ class Skill(db.Model):
     id=db.Column(db.Integer, primary_key = True)
     name=db.Column(db.String(50), nullable = False)
     icon=db.Column(db.String(100), nullable = False)
+
+class Screenshot(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    filename = db.Column(db.String(200), nullable=False)
+    project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
+
+
+

@@ -5,19 +5,28 @@
 {% block content %}
 <h1>My Projects</h1>
 <ul>
+    <div class="projects-grid">
     {% for project in projects %}
     <li>
+        <div class="project-card">
+        <img src="{{ project.link }}">
         <h2>{{ project.title }}</h2>
         <p>{{ project.description }}</p>
         <a href="{{ project.link }}" target="_blank">View Project</a>
+        {% for screenshot in project.screenshots %}
+        <img src="{{ screenshot.filename }}" alt="{{ project.title }}" width="100">
+        {% endfor %}
+
     </li>
     {% endfor %}
+    </div>
 </ul>
 {% endblock %}
 {% block navigation %}
 <div class="navigation-arrows">
-    <a href="{{ url_for('about') }}" class="prev-arrow">←</a>
-    <a href="{{ url_for('contact') }}" class="next-arrow">→</a>
+    <a href="{{ url_for('about') }}" class="prev-arrow"><strong>←</strong></a>
+    <a href="{{ url_for('contact') }}" class="next-arrow"><strong>→</strong></a>
 </div>
 {% endblock %}
+
 

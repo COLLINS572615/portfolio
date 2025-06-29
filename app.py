@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from werkzeug.utils import secure_filename
 import os
-from models import db, Project, Message, Admin, Skill
+from models import db, Project, Message, Admin, Skill, Screenshot
 
 UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = {'zip', 'rar', 'tar', 'png', 'jpg', 'jpeg', 'gif'}
@@ -64,7 +64,7 @@ def upload():
             filename = secure_filename(file.filename)
             filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(filepath)
-            new_project = Project(title = title, description = description, link = filepath)
+            new_project = Project(title = title, description = description, link=f"/static/uploads/{filename}")
             db.session.add(new_project)
             db.session.commit()
             return redirect(url_for('portfolio'))
@@ -83,6 +83,33 @@ def admin_projects():
             db.session.delete(project)
             db.session.commit()
     return render_template('admin_projects.html', projects=projects)
+
+@app.route('/admin/projects/edit/<int:project_id>', methods = ['POST', 'GET'])
+def edit_project(project_id):
+    if not session.get('is_admin'):
+        return redirect(url_for('login'))
+    
+    project = Project.query.get_or_404(project_id)
+
+    if request.method == 'POST':
+        project.title = request.form['title']
+        project.description = request.form['description']
+
+        #Handle new screendhots upload
+        files = request.files.getlist('files')
+        for file in files:
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                file.save(filepath)
+                new_screenshot = Screenshot(filename=f"/static/uploads/{filename}", project_id=project.id)
+                db.session.commit(new_screenshot)
+                            
+            db.session.commit()
+            return redirect(url_for('admin_projects'))
+        
+    return render_template('edit_project.html', project=project)
+
 
 @app.route('/admin/messages', methods = ['GET', 'POST'])
 def admin_messages():
