@@ -9,18 +9,24 @@
     {% for project in projects %}
     <li>
         <div class="project-card">
-        <img src="{{ project.link }}">
-        <h2>{{ project.title }}</h2>
-        <p>{{ project.description }}</p>
-        <a href="{{ project.link }}" target="_blank">View Project</a>
+            <img src="{{ project.link }}" alt="{{ project.title }}" class="project-thumbnail" data-full="{{ project.link }}">
+            <h2>{{ project.title }}</h2>
+            <p>{{ project.description }}</p>
+            <a href="{{ project.link }}" target="_blank">View Project</a>
         {% for screenshot in project.screenshots %}
         <img src="{{ screenshot.filename }}" alt="{{ project.title }}" width="100">
         {% endfor %}
 
     </li>
     {% endfor %}
-    </div>
+    </div>    
+</div>
 </ul>
+<!-- Modal Structure -->
+<div id="imageModal" class="modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="modalImage">
+    <div id="caption"></div>
 {% endblock %}
 {% block navigation %}
 <div class="navigation-arrows">

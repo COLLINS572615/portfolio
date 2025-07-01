@@ -67,6 +67,37 @@
         document.body.style.opacity = 1; // Fade-in effect
     });
     </script>
+    <script>
+    //Get the modal
+    const modal = document.getElementById("imageModal");
+
+    //Get the modal image and caption
+    const modalImage = document.getElementById("modalImage");
+    const captionText = document.getElementById("caption");
+            
+    // Open modal on image click
+    document.querySelectorAll(".project-thumbnail").forEach((thumbnail) => {
+        thumbnail.addEventListener("click", function () {
+            modal.style.display = "block";
+            modalImage.src = this.dataset.full;
+            captionText.innerHTML = this.alt;
+        });
+    });
+            
+   // Close modal on click
+    const closeButton = document.getElementsByClassName("close")[0];
+    closeButton.onclick = function () {
+        modal.style.display = "none";
+    };
+
+    //close modal when clicking outside image
+    window.onClick = function(event){
+    if (event.target == modal){
+    modal.style.display = "none";
+        }
+    };
+
+    </script>
     <main>
         {% block content %}{% endblock %}
     </main>
